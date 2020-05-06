@@ -2,6 +2,7 @@ package org.itoapp.fieldtest;
 
 import android.content.Context;
 
+import org.itoapp.fieldtest.datasource.Accelerometer;
 import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceModel;
 import org.itoapp.fieldtest.datasource.GPS;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class DataLogger {
 
-    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS(), new Proximity()));
+    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS(), new Proximity(), new Accelerometer()));
     private CsvWriter csvWriter;
     private Object[] values;
     private Type[] valueTypes;
@@ -74,8 +75,7 @@ public class DataLogger {
                 typeNames[i] = "string";
             else if (type instanceof Class) {
                 typeNames[i] = ((Class) type).getCanonicalName();
-            }
-            else
+            } else
                 typeNames[i] = type.toString();
         }
         csvWriter.writeLine(typeNames, untypedValues);
