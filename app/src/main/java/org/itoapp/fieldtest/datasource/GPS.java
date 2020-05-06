@@ -11,8 +11,10 @@ import java.lang.reflect.Type;
 
 public class GPS implements DataSource, LocationListener {
 
-    private Location currentLocation;
     private LocationManager locationManager;
+
+    private double latitude, longitude, altitude;
+    private float accuracy;
 
     // Permission is checked by MainActivity
     @SuppressLint("MissingPermission")
@@ -40,7 +42,7 @@ public class GPS implements DataSource, LocationListener {
 
     @Override
     public Object[] getData() {
-        return new Object[]{currentLocation.getLatitude(), currentLocation.getLongitude(), currentLocation.getAltitude(), currentLocation.getAccuracy()};
+        return new Object[]{latitude, longitude, altitude, accuracy};
     }
 
     @Override
@@ -50,7 +52,10 @@ public class GPS implements DataSource, LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        currentLocation = location;
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        altitude = location.getAltitude();
+        accuracy = location.getAccuracy();
     }
 
     @Override
