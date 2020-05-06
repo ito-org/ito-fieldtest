@@ -5,6 +5,7 @@ import android.content.Context;
 import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceModel;
 import org.itoapp.fieldtest.datasource.GPS;
+import org.itoapp.fieldtest.datasource.Proximity;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -14,7 +15,7 @@ import java.util.List;
 
 public class DataLogger {
 
-    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS()));
+    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS(), new Proximity()));
     private CsvWriter csvWriter;
     private Object[] values;
     private Type[] valueTypes;
