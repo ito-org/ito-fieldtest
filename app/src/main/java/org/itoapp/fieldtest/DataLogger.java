@@ -27,7 +27,10 @@ public class DataLogger {
             List<Type> valueTypes = new ArrayList<>();
 
             // add rssi and id values
-            valueLabels.add("id");
+            valueLabels.add("own_id");
+            valueTypes.add(byte[].class);
+
+            valueLabels.add("contact_id");
             valueTypes.add(byte[].class);
 
             valueLabels.add("rssi");
@@ -79,6 +82,7 @@ public class DataLogger {
 
     public void logData(byte[] id, int rssi) {
         int i = 0;
+        values[i++] = TelemetryService.BROADCAST_ID;
         values[i++] = id;
         values[i++] = rssi;
 

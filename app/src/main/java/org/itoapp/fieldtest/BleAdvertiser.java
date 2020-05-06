@@ -38,7 +38,7 @@ public class BleAdvertiser {
         AdvertiseData data = new AdvertiseData.Builder()
                 .setIncludeTxPowerLevel(false)
                 .setIncludeDeviceName(false)
-                .addServiceData(TelemetryService.SERVICE_UUID, TelemetryService.SERVICE_DATA)
+                .addServiceData(TelemetryService.SERVICE_UUID, TelemetryService.BROADCAST_ID)
                 .build();
 
         bluetoothAdvertiseCallback = new AdvertiseCallback() {

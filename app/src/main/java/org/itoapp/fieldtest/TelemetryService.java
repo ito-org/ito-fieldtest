@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.Random;
 
 public class TelemetryService extends Service {
-    public static final ParcelUuid SERVICE_UUID = ParcelUuid.fromString("000063a1-0000-1000-8000-00805f9b34fb");
-    public static final byte[] SERVICE_DATA = new byte[13];
+    public static final ParcelUuid SERVICE_UUID = ParcelUuid.fromString("00003098-0000-1000-8000-00805f9b34fb");
+    public static final byte[] BROADCAST_ID = new byte[13];
     private static final String DEFAULT_NOTIFICATION_CHANNEL = "ContactTracing";
     private static final int NOTIFICATION_ID = 1;
     private static final File STORAGE_DIRECTORY = new File("/storage/self/primary/ito-data");
 
     static {
-        new Random().nextBytes(SERVICE_DATA);
+        new Random().nextBytes(BROADCAST_ID);
     }
 
     private Handler serviceHandler;
