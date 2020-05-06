@@ -6,6 +6,7 @@ import org.itoapp.fieldtest.datasource.Accelerometer;
 import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceModel;
 import org.itoapp.fieldtest.datasource.GPS;
+import org.itoapp.fieldtest.datasource.MagneticField;
 import org.itoapp.fieldtest.datasource.Proximity;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.List;
 
 public class DataLogger {
 
-    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS(), new Proximity(), new Accelerometer()));
+    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceModel(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField()));
     private CsvWriter csvWriter;
     private Object[] values;
     private Type[] valueTypes;
