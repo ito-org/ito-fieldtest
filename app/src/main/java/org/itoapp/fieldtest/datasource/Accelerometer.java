@@ -12,8 +12,8 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class Accelerometer implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy;
-    private float accel_x, accel_y, accel_z;
+    private int accuracy = Integer.MIN_VALUE;
+    private float accel_x = Float.NaN, accel_y = Float.NaN, accel_z = Float.NaN;
 
     @Override
     public boolean setup(Context context) {

@@ -13,8 +13,8 @@ public class GPS implements DataSource, LocationListener {
 
     private LocationManager locationManager;
 
-    private double latitude, longitude, altitude;
-    private float accuracy;
+    private double latitude = Double.NaN, longitude = Double.NaN, altitude = Double.NaN;
+    private float accuracy = Float.NaN;
 
     // Permission is checked by MainActivity
     @SuppressLint("MissingPermission")

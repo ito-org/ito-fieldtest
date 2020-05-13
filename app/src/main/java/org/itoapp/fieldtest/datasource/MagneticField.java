@@ -12,7 +12,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class MagneticField implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy;
+    private int accuracy = Integer.MIN_VALUE;
     private float magnetic_x = Float.NaN, magnetic_y = Float.NaN, magnetic_z = Float.NaN;
     private float magnetic_bias_x = Float.NaN, magnetic_bias_y = Float.NaN, magnetic_bias_z = Float.NaN;
 

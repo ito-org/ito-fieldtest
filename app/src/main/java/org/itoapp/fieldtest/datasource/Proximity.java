@@ -12,8 +12,8 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class Proximity implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy;
-    private float proximity;
+    private int accuracy = Integer.MIN_VALUE;
+    private float proximity = Float.NaN;
 
     @Override
     public boolean setup(Context context) {
