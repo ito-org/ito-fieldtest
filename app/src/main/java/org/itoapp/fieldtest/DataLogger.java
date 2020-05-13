@@ -4,7 +4,7 @@ import android.content.Context;
 
 import org.itoapp.fieldtest.datasource.Accelerometer;
 import org.itoapp.fieldtest.datasource.DataSource;
-import org.itoapp.fieldtest.datasource.DeviceModel;
+import org.itoapp.fieldtest.datasource.DeviceInformation;
 import org.itoapp.fieldtest.datasource.GPS;
 import org.itoapp.fieldtest.datasource.MagneticField;
 import org.itoapp.fieldtest.datasource.Proximity;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class DataLogger {
 
-    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new Timestamp(), new DeviceModel(), new ScreenActivity(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField()));
+    private List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new Timestamp(), new DeviceInformation(), new ScreenActivity(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField()));
     private CsvWriter csvWriter;
     private Object[] values;
     private Type[] valueTypes;
