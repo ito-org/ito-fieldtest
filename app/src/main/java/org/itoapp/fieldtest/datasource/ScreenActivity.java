@@ -54,4 +54,10 @@ public class ScreenActivity implements DataSource {
         this.dataListener = listener;
         dataListener.onDataReceived(new Object[]{isScreenOn()});
     }
+
+    @Override
+    public void destroy() {
+        this.dataListener = null;
+        handler.removeCallbacks(checkScreen);
+    }
 }
