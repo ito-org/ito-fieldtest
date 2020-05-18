@@ -8,6 +8,7 @@ import org.itoapp.fieldtest.datasource.BLE;
 import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceInformation;
 import org.itoapp.fieldtest.datasource.GPS;
+import org.itoapp.fieldtest.datasource.Gyroscope;
 import org.itoapp.fieldtest.datasource.MagneticField;
 import org.itoapp.fieldtest.datasource.Proximity;
 import org.itoapp.fieldtest.datasource.ScreenActivity;
@@ -22,7 +23,19 @@ import java.util.Map;
 
 public class DataLogger {
 
-    private final List<DataSource> dataSources = Arrays.asList(new DeviceInformation(), new ScreenActivity(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField(), new BLE(), new AmbientTemperature());
+    private final List<DataSource> dataSources = Arrays.asList(
+            // BLE and DeviceInformation is the absolute minimum
+            // It would only allow recording bluetooth contacts and their RSSI values of time
+            new BLE(),
+            new DeviceInformation(),
+
+            new Accelerometer(),
+            new Gyroscope(),
+            new MagneticField(),
+            new GPS(),
+            new Proximity(),
+            new ScreenActivity(),
+            new AmbientTemperature());
 
     private Map<DataSource, CsvWriter> dataSourceCsvWriters = new HashMap<>();
 
