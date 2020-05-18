@@ -3,6 +3,7 @@ package org.itoapp.fieldtest;
 import android.content.Context;
 
 import org.itoapp.fieldtest.datasource.Accelerometer;
+import org.itoapp.fieldtest.datasource.AmbientTemperature;
 import org.itoapp.fieldtest.datasource.BLE;
 import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceInformation;
@@ -14,7 +15,6 @@ import org.itoapp.fieldtest.datasource.ScreenActivity;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 public class DataLogger {
 
-    private final List<DataSource> dataSources = new ArrayList<>(Arrays.asList(new DeviceInformation(), new ScreenActivity(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField(), new BLE()));
+    private final List<DataSource> dataSources = Arrays.asList(new DeviceInformation(), new ScreenActivity(), new GPS(), new Proximity(), new Accelerometer(), new MagneticField(), new BLE(), new AmbientTemperature());
 
     private Map<DataSource, CsvWriter> dataSourceCsvWriters = new HashMap<>();
 
