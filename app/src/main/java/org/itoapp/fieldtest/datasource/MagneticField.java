@@ -2,8 +2,6 @@ package org.itoapp.fieldtest.datasource;
 
 import android.hardware.Sensor;
 
-import java.lang.reflect.Type;
-
 
 public class MagneticField extends SensorDataSource {
     @Override
@@ -18,10 +16,4 @@ public class MagneticField extends SensorDataSource {
                 "magnetic_accuracy"};
     }
 
-    @Override
-    public Type[] getDataTypes() {
-        return new Type[]{float.class, float.class, float.class,
-                float.class, float.class, float.class,
-                int.class};
-    }
 }

@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 
 import static android.content.Context.SENSOR_SERVICE;
 
@@ -17,7 +18,7 @@ public abstract class SensorDataSource implements DataSource, SensorEventListene
     private int numberOfFields;
 
     @Override
-    public boolean setup(Context context) {
+    public final boolean setup(Context context) {
         sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
 
         if (sensorManager == null) {
@@ -33,31 +34,30 @@ public abstract class SensorDataSource implements DataSource, SensorEventListene
         // validation: check that the number of fields is consistent
         numberOfFields = getDataLabels().length;
 
-        Type[] dataTypes = getDataTypes();
-        if ((getDataTypes().length != numberOfFields)) throw new AssertionError();
-
-        // also check that the types are floats except for the last one which should be an int
-        for (int i = 0; i < dataTypes.length - 1; i++)
-            if ((dataTypes[i] != float.class)) throw new AssertionError();
-
-        if (dataTypes[dataTypes.length - 1] != int.class) throw new AssertionError();
-
         return sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_FASTEST);
     }
 
     @Override
-    public void setDataListener(DataListener listener) {
+    public final Type[] getDataTypes() {
+        Type[] fieldTypes = new Type[numberOfFields];
+        Arrays.fill(fieldTypes, float.class);
+        fieldTypes[numberOfFields - 1] = int.class;
+        return fieldTypes;
+    }
+
+    @Override
+    public final void setDataListener(DataListener listener) {
         this.dataListener = listener;
     }
 
     @Override
-    public void destroy() {
+    public final void destroy() {
         dataListener = null;
         sensorManager.unregisterListener(this);
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
+    public final void onSensorChanged(SensorEvent event) {
         if (event.values.length + 1 != numberOfFields) throw new AssertionError();
 
         Object[] data = new Object[numberOfFields];
@@ -71,7 +71,7 @@ public abstract class SensorDataSource implements DataSource, SensorEventListene
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    public final void onAccuracyChanged(Sensor sensor, int accuracy) {
         // Do nothing
     }
 
