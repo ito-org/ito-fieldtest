@@ -12,9 +12,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class MagneticField implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy = Integer.MIN_VALUE;
-    private float magnetic_x = Float.NaN, magnetic_y = Float.NaN, magnetic_z = Float.NaN;
-    private float magnetic_bias_x = Float.NaN, magnetic_bias_y = Float.NaN, magnetic_bias_z = Float.NaN;
+    private DataListener dataListener;
 
     @Override
     public boolean setup(Context context) {
@@ -50,10 +48,8 @@ public class MagneticField implements DataSource, SensorEventListener {
     }
 
     @Override
-    public Object[] getData() {
-        return new Object[]{magnetic_x, magnetic_y, magnetic_z,
-                magnetic_bias_x, magnetic_bias_y, magnetic_bias_z,
-                accuracy};
+    public void setDataListener(DataListener listener) {
+        this.dataListener = listener;
     }
 
     @Override
@@ -63,13 +59,19 @@ public class MagneticField implements DataSource, SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        magnetic_x = event.values[0];
-        magnetic_y = event.values[1];
-        magnetic_z = event.values[2];
-        magnetic_bias_x = event.values[3];
-        magnetic_bias_y = event.values[4];
-        magnetic_bias_z = event.values[5];
-        accuracy = event.accuracy;
+        float magnetic_x = event.values[0];
+        float magnetic_y = event.values[1];
+        float magnetic_z = event.values[2];
+        float magnetic_bias_x = event.values[3];
+        float magnetic_bias_y = event.values[4];
+        float magnetic_bias_z = event.values[5];
+        int accuracy = event.accuracy;
+
+        if (dataListener != null) {
+            dataListener.onDataReceived(new Object[]{magnetic_x, magnetic_y, magnetic_z,
+                    magnetic_bias_x, magnetic_bias_y, magnetic_bias_z,
+                    accuracy});
+        }
     }
 
     @Override

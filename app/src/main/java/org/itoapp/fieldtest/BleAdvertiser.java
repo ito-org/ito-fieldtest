@@ -15,9 +15,9 @@ public class BleAdvertiser {
     private BluetoothLeAdvertiser bluetoothLeAdvertiser;
     private AdvertiseCallback bluetoothAdvertiseCallback;
 
-    public BleAdvertiser(BluetoothAdapter bluetoothAdapter, Handler serviceHandler) {
+    public BleAdvertiser(BluetoothAdapter bluetoothAdapter) {
         this.bluetoothLeAdvertiser = bluetoothAdapter.getBluetoothLeAdvertiser();
-        this.serviceHandler = serviceHandler;
+        this.serviceHandler = new Handler();
     }
 
 

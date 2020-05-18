@@ -13,8 +13,7 @@ public class GPS implements DataSource, LocationListener {
 
     private LocationManager locationManager;
 
-    private double latitude = Double.NaN, longitude = Double.NaN, altitude = Double.NaN;
-    private float accuracy = Float.NaN;
+    private DataListener dataListener;
 
     // Permission is checked by MainActivity
     @SuppressLint("MissingPermission")
@@ -41,8 +40,8 @@ public class GPS implements DataSource, LocationListener {
     }
 
     @Override
-    public Object[] getData() {
-        return new Object[]{latitude, longitude, altitude, accuracy};
+    public void setDataListener(DataListener listener) {
+        this.dataListener = listener;
     }
 
     @Override
@@ -52,10 +51,14 @@ public class GPS implements DataSource, LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-        altitude = location.getAltitude();
-        accuracy = location.getAccuracy();
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        double altitude = location.getAltitude();
+        float accuracy = location.getAccuracy();
+
+        if (dataListener != null) {
+            dataListener.onDataReceived(new Object[]{latitude, longitude, altitude, accuracy});
+        }
     }
 
     @Override

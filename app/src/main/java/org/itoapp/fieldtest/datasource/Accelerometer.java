@@ -12,8 +12,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class Accelerometer implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy = Integer.MIN_VALUE;
-    private float accel_x = Float.NaN, accel_y = Float.NaN, accel_z = Float.NaN;
+    private DataListener dataListener;
 
     @Override
     public boolean setup(Context context) {
@@ -45,8 +44,8 @@ public class Accelerometer implements DataSource, SensorEventListener {
     }
 
     @Override
-    public Object[] getData() {
-        return new Object[]{accel_x, accel_y, accel_z, accuracy};
+    public void setDataListener(DataListener listener) {
+        this.dataListener = listener;
     }
 
     @Override
@@ -56,10 +55,13 @@ public class Accelerometer implements DataSource, SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        accel_x = event.values[0];
-        accel_y = event.values[1];
-        accel_z = event.values[2];
-        accuracy = event.accuracy;
+        float accel_x = event.values[0];
+        float accel_y = event.values[1];
+        float accel_z = event.values[2];
+        int accuracy = event.accuracy;
+        if (dataListener != null) {
+            dataListener.onDataReceived(new Object[]{accel_x, accel_y, accel_z, accuracy});
+        }
     }
 
     @Override

@@ -6,14 +6,10 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.ParcelUuid;
 
@@ -28,17 +24,12 @@ public class TelemetryService extends Service {
     public static final byte[] BROADCAST_ID = new byte[13];
     private static final String DEFAULT_NOTIFICATION_CHANNEL = "ContactTracing";
     private static final int NOTIFICATION_ID = 1;
-    private static final File STORAGE_DIRECTORY = new File("/storage/self/primary/ito-data");
+    private static final File STORAGE_DIRECTORY = new File("/storage/emulated/0/ito-data");
 
     static {
         new Random().nextBytes(BROADCAST_ID);
     }
 
-    private Handler serviceHandler;
-    private BleScanner bleScanner;
-    private BleAdvertiser bleAdvertiser;
-    private File logFile;
-    private CsvWriter csvWriter;
     private DataLogger dataLogger;
 
     @Override
@@ -51,53 +42,20 @@ public class TelemetryService extends Service {
             throw new RuntimeException("Storage directory does not exist!");
         }
 
+        File logFolder;
         {
-            int logFileIndex = 1;
+            int folderIndex = 1;
             do {
-                logFile = new File(STORAGE_DIRECTORY, logFileIndex++ + ".csv");
-            } while (logFile.exists());
+                logFolder = new File(STORAGE_DIRECTORY, folderIndex++ + "");
+            } while (logFolder.exists());
         }
 
         try {
-            csvWriter = new CsvWriter(logFile);
-            dataLogger = new DataLogger(this, csvWriter);
+            logFolder.mkdir();
+            dataLogger = new DataLogger(this, logFolder);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        HandlerThread handlerThread = new HandlerThread("DataCollectionThread");
-        handlerThread.start();
-
-        serviceHandler = new Handler(handlerThread.getLooper());
-        startBluetooth();
-    }
-
-    private void stopBluetooth() {
-        if (bleScanner != null)
-            try {
-                bleScanner.stopScanning();
-            } catch (Exception ignored) {
-            }
-        if (bleAdvertiser != null)
-            try {
-                bleAdvertiser.stopAdvertising();
-            } catch (Exception ignored) {
-            }
-
-        bleScanner = null;
-        bleAdvertiser = null;
-    }
-
-    private void startBluetooth() {
-        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-        assert bluetoothManager != null;
-        BluetoothAdapter bluetoothAdapter = bluetoothManager.getAdapter();
-
-        bleScanner = new BleScanner(bluetoothAdapter, (id, rssi) -> dataLogger.logData(id, rssi));
-        bleAdvertiser = new BleAdvertiser(bluetoothAdapter, serviceHandler);
-
-        bleAdvertiser.startAdvertising();
-        bleScanner.startScanning();
     }
 
     @Override
@@ -108,10 +66,7 @@ public class TelemetryService extends Service {
 
     @Override
     public void onDestroy() {
-        stopBluetooth();
-
         dataLogger.destroy();
-
         super.onDestroy();
     }
 

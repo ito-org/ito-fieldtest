@@ -5,6 +5,7 @@ import android.content.Context;
 import java.lang.reflect.Type;
 
 public interface DataSource {
+    void setDataListener(DataListener listener);
 
     /**
      * Set up this datasource
@@ -25,12 +26,9 @@ public interface DataSource {
      */
     Type[] getDataTypes();
 
-    /**
-     * Query the datasource for the specific data.
-     *
-     * @return the data
-     */
-    Object[] getData();
+    public interface DataListener {
+        void onDataReceived(Object[] data);
+    }
 
     /**
      * Destroy this datasource. All claimed resources should be freed.

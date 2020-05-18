@@ -42,7 +42,7 @@ class CsvWriter implements AutoCloseable, Flushable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() throws IOException {
         if (writer != null)
             writer.close();
     }

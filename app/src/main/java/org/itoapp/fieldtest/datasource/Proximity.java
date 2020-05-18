@@ -12,8 +12,7 @@ import static android.content.Context.SENSOR_SERVICE;
 
 public class Proximity implements DataSource, SensorEventListener {
     private SensorManager sensorManager;
-    private int accuracy = Integer.MIN_VALUE;
-    private float proximity = Float.NaN;
+    private DataListener dataListener;
 
     @Override
     public boolean setup(Context context) {
@@ -44,9 +43,10 @@ public class Proximity implements DataSource, SensorEventListener {
         return new Type[]{float.class, int.class};
     }
 
+
     @Override
-    public Object[] getData() {
-        return new Object[]{proximity, accuracy};
+    public void setDataListener(DataListener listener) {
+        this.dataListener = listener;
     }
 
     @Override
@@ -56,8 +56,12 @@ public class Proximity implements DataSource, SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        proximity = event.values[0];
-        accuracy = event.accuracy;
+        float proximity = event.values[0];
+        int accuracy = event.accuracy;
+
+        if (dataListener != null) {
+            dataListener.onDataReceived(new Object[]{proximity, accuracy});
+        }
     }
 
     @Override
