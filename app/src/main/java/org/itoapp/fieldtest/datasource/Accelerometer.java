@@ -1,36 +1,15 @@
 package org.itoapp.fieldtest.datasource;
 
-import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 
 import java.lang.reflect.Type;
 
-import static android.content.Context.SENSOR_SERVICE;
 
-public class Accelerometer implements DataSource, SensorEventListener {
-    private SensorManager sensorManager;
-    private DataListener dataListener;
+public class Accelerometer extends SensorDataSource {
 
     @Override
-    public boolean setup(Context context) {
-        sensorManager = (SensorManager) context.getSystemService(SENSOR_SERVICE);
-
-        if (sensorManager == null) {
-            return false;
-        }
-
-        Sensor accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        if (accelerometer == null) {
-            return false;
-        }
-
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_FASTEST);
-
-        return true;
+    public int getSensorType() {
+        return Sensor.TYPE_ACCELEROMETER;
     }
 
     @Override
@@ -41,31 +20,5 @@ public class Accelerometer implements DataSource, SensorEventListener {
     @Override
     public Type[] getDataTypes() {
         return new Type[]{float.class, float.class, float.class, int.class};
-    }
-
-    @Override
-    public void setDataListener(DataListener listener) {
-        this.dataListener = listener;
-    }
-
-    @Override
-    public void destroy() {
-        sensorManager.unregisterListener(this);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        float accel_x = event.values[0];
-        float accel_y = event.values[1];
-        float accel_z = event.values[2];
-        int accuracy = event.accuracy;
-        if (dataListener != null) {
-            dataListener.onDataReceived(new Object[]{accel_x, accel_y, accel_z, accuracy});
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing
     }
 }
