@@ -26,9 +26,9 @@ public class DeviceInformation implements DataSource {
     @Override
     public String[] getDataLabels() {
         if (includeSerial) {
-            return new String[]{"device_model", "sdk_version", "radio_version", "serial_number", "own_uuid"};
+            return new String[]{"device_model", "brand", "board", "sdk_version", "radio_version", "serial_number", "own_uuid"};
         } else {
-            return new String[]{"device_model", "sdk_version", "radio_version", "own_uuid"};
+            return new String[]{"device_model", "brand", "board", "sdk_version", "radio_version", "own_uuid"};
         }
     }
 
@@ -36,9 +36,9 @@ public class DeviceInformation implements DataSource {
     public Type[] getDataTypes() {
         Build.getRadioVersion();
         if (includeSerial) {
-            return new Type[]{String.class, int.class, String.class, String.class, byte[].class};
+            return new Type[]{String.class, String.class, String.class, int.class, String.class, String.class, byte[].class};
         } else {
-            return new Type[]{String.class, int.class, String.class, byte[].class};
+            return new Type[]{String.class, String.class, String.class, int.class, String.class, byte[].class};
         }
     }
 
@@ -47,9 +47,9 @@ public class DeviceInformation implements DataSource {
     public void setDataListener(DataListener listener) {
         if (listener != null) {
             if (includeSerial) {
-                listener.onDataReceived(new Object[]{Build.MODEL, Build.VERSION.SDK_INT, Build.getRadioVersion(), Build.getSerial(), TelemetryService.BROADCAST_ID});
+                listener.onDataReceived(new Object[]{Build.MODEL, Build.BRAND, Build.BOARD, Build.VERSION.SDK_INT, Build.getRadioVersion(), Build.getSerial(), TelemetryService.BROADCAST_ID});
             } else {
-                listener.onDataReceived(new Object[]{Build.MODEL, Build.VERSION.SDK_INT, Build.getRadioVersion(), TelemetryService.BROADCAST_ID});
+                listener.onDataReceived(new Object[]{Build.MODEL, Build.BRAND, Build.BOARD, Build.VERSION.SDK_INT, Build.getRadioVersion(), TelemetryService.BROADCAST_ID});
             }
         }
     }
