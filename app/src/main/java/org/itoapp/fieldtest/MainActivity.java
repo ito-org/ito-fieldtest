@@ -14,12 +14,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static int REQUEST_LOCATION_PERMISSION = 1; // value not relevant
-    private static int REQUEST_STORAGE_PERMISSION = 2;
+    private static final int REQUEST_LOCATION_PERMISSION = 1; // value not relevant
+    private static final int REQUEST_STORAGE_PERMISSION = 2;
+    private static final int REQUEST_READ_PHONE_STATE_PERMISSION = 3;
 
 
     private Intent serviceIntent;
@@ -41,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
             startService(serviceIntent);
         } else {
             stopService(serviceIntent);
-            if(!Preconditions.hasStoragePermissions(this)) {
+            if (!Preconditions.hasPhoneStatePermissions(this)) {
+                ActivityCompat.requestPermissions(this, new String[]{READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE_PERMISSION);
+            } else if (!Preconditions.hasStoragePermissions(this)) {
                 ActivityCompat.requestPermissions(this, new String[]{WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
             }
             else if(!Preconditions.hasLocationPermissions(this)){
@@ -70,5 +74,4 @@ public class MainActivity extends AppCompatActivity {
 
         handleServiceStatus();
     }
-
 }

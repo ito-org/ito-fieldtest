@@ -58,10 +58,15 @@ public class Preconditions {
                 == PackageManager.PERMISSION_GRANTED;
     }
 
+    public static boolean hasPhoneStatePermissions(Context context) {
+        return ContextCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED;
+    }
+
     public static boolean canScanBluetooth(Context context) {
         return hasStoragePermissions(context)
                 && hasLocationPermissions(context)
                 && isBluetoothEnabled(context)
-                && isLocationServiceEnabled(context);
+                && isLocationServiceEnabled(context)
+                && hasPhoneStatePermissions(context);
     }
 }
