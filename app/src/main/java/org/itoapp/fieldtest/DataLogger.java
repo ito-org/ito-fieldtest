@@ -9,6 +9,7 @@ import org.itoapp.fieldtest.datasource.DataSource;
 import org.itoapp.fieldtest.datasource.DeviceInformation;
 import org.itoapp.fieldtest.datasource.GPS;
 import org.itoapp.fieldtest.datasource.Gyroscope;
+import org.itoapp.fieldtest.datasource.Light;
 import org.itoapp.fieldtest.datasource.MagneticField;
 import org.itoapp.fieldtest.datasource.Proximity;
 import org.itoapp.fieldtest.datasource.ScreenActivity;
@@ -34,6 +35,7 @@ public class DataLogger {
             new MagneticField(),
             new GPS(),
             new Proximity(),
+            new Light(),
             new ScreenActivity(),
             new AmbientTemperature());
 

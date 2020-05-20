@@ -34,7 +34,6 @@ public class DeviceInformation implements DataSource {
 
     @Override
     public Type[] getDataTypes() {
-        Build.getRadioVersion();
         if (includeSerial) {
             return new Type[]{String.class, String.class, String.class, int.class, String.class, String.class, byte[].class};
         } else {
