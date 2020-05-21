@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.ParcelUuid;
 
@@ -24,7 +25,6 @@ public class TelemetryService extends Service {
     public static final byte[] BROADCAST_ID = new byte[13];
     private static final String DEFAULT_NOTIFICATION_CHANNEL = "ContactTracing";
     private static final int NOTIFICATION_ID = 1;
-    private static final File STORAGE_DIRECTORY = new File("/storage/emulated/0/ito-data");
 
     static {
         new Random().nextBytes(BROADCAST_ID);
@@ -36,9 +36,10 @@ public class TelemetryService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        STORAGE_DIRECTORY.mkdirs();
+        File storageDirectory = new File(Environment.getExternalStorageDirectory(), "ito-data");
+        storageDirectory.mkdirs();
 
-        if (!STORAGE_DIRECTORY.isDirectory()) {
+        if (!storageDirectory.isDirectory()) {
             throw new RuntimeException("Storage directory does not exist!");
         }
 
@@ -46,7 +47,7 @@ public class TelemetryService extends Service {
         {
             int folderIndex = 1;
             do {
-                logFolder = new File(STORAGE_DIRECTORY, folderIndex++ + "");
+                logFolder = new File(storageDirectory, folderIndex++ + "");
             } while (logFolder.exists());
         }
 
