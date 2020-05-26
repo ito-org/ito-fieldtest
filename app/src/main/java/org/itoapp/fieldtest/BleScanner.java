@@ -2,11 +2,14 @@ package org.itoapp.fieldtest;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanRecord;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.os.Build;
 import android.util.Log;
+
+import java.util.Collections;
 
 public class BleScanner {
     private static final String LOG_TAG = "BleScanner";
@@ -61,13 +64,15 @@ public class BleScanner {
             settingsBuilder.setLegacy(true);
         }
 
-        /*ScanFilter filter = new ScanFilter.Builder()
-                .setServiceUuid(DataCollectionService.SERVICE_UUID)
-                .build();*/
+        byte[] serviceDataMask = new byte[TelemetryService.BROADCAST_ID.length];
+
+        // this filter is necessary for background operation
+        ScanFilter filter = new ScanFilter.Builder()
+                .setServiceData(TelemetryService.SERVICE_UUID, serviceDataMask, serviceDataMask)
+                .build();
 
 
-        //bluetoothLeScanner.startScan(Collections.singletonList(filter), settingsBuilder.build(), bluetoothScanCallback);
-        bluetoothLeScanner.startScan(bluetoothScanCallback);
+        bluetoothLeScanner.startScan(Collections.singletonList(filter), settingsBuilder.build(), bluetoothScanCallback);
     }
 
     public void stopScanning() {
