@@ -6,6 +6,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.bluetooth.le.AdvertiseSettings;
+import android.bluetooth.le.ScanSettings;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -25,6 +27,10 @@ public class TelemetryService extends Service {
     public static final byte[] BROADCAST_ID = new byte[13];
     private static final String DEFAULT_NOTIFICATION_CHANNEL = "ContactTracing";
     private static final int NOTIFICATION_ID = 1;
+
+    public static final int BLE_ADVERTISE_MODE = AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY;
+    public static final int BLE_TX_POWER_LEVEL = AdvertiseSettings.ADVERTISE_TX_POWER_HIGH;
+    public static final int BLE_SCAN_MODE = ScanSettings.SCAN_MODE_LOW_LATENCY;
 
     static {
         new Random().nextBytes(BROADCAST_ID);

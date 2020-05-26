@@ -28,8 +28,8 @@ public class BleAdvertiser {
 
     public void startAdvertising() {
         AdvertiseSettings settings = new AdvertiseSettings.Builder()
-                .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_LATENCY)
-                .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
+                .setAdvertiseMode(TelemetryService.BLE_ADVERTISE_MODE)
+                .setTxPowerLevel(TelemetryService.BLE_TX_POWER_LEVEL)
                 .setConnectable(false)
                 .setTimeout(0)
                 .build();

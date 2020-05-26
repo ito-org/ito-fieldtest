@@ -51,7 +51,7 @@ public class BleScanner {
         };
 
         ScanSettings.Builder settingsBuilder = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY)
+                .setScanMode(TelemetryService.BLE_SCAN_MODE)
                 .setReportDelay(0);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
